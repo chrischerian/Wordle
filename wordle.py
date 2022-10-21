@@ -22,7 +22,6 @@ def generateWord():
     "sight", "skill", "sleep", "taste", "total", "touch", "train", "trend", "uncle"," union", "value", "video", "voice", "waste", "watch", "white", "whole",
     "woman", "world","young"]
     wordle = random.choice(wordList)
-    wordle = "CHEST"
     return wordle
 
 def checkTriple(wordle):
