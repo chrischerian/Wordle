@@ -13,15 +13,16 @@ def welcome():
     print("==================")
     print("\n")
 
-#Wordle Methods
+#WORDLE SET UP
 def generateWord():
     wordList = ["adult", "agent", "apple", "award", "basis", "beach", "block", "beard", "brain", "chest", "chief", "child", "clock", "coach", "dream",
     "drama,", "drive", "drink", "earth", "enemy", "entry", "error", "faith", "fruit", "glass", "grass", "green", "heart", "horse", "hotel", "house","image",
     "index", "judge", "layer", "level", " limit", "major", "match", "metal", "model", "money", "noise", "north", "novel", "nurse", "order", "owner", "panel",
     "paper", "party", "peace", "poker", "pound", "queen", "ratio", "reply", "right", "river", "scene", "scope", "shape", "share", "sheep", "shift", "shock",
-    "slight", "skill", "sleep", "taste", "total", "touch", "train", "trend", "uncle"," union", "value", "video", "voice", "waste", "watch", "white", "whole",
+    "sight", "skill", "sleep", "taste", "total", "touch", "train", "trend", "uncle"," union", "value", "video", "voice", "waste", "watch", "white", "whole",
     "woman", "world","young"]
     wordle = random.choice(wordList)
+    wordle = "CHEST"
     return wordle
 
 def checkTriple(wordle):
@@ -69,34 +70,19 @@ def userGuess():
     guess = input("Guess a 5 letter word: \n > ")
     return guess
 
-#Initializes Keyboard Colors
-def colorKeyboard(guess, answer, keyboard):
-    keyboard = keyboard
-    guess = guess.upper()
-    answer = answer.upper()
-
-    i = 0
-    while i < (len(guess)):
-        if guess[i] == answer[i]:
-            for j in keyboard:
-                if j.value == guess[i]:
-                    j.setColor("green")
-            i += 1
-            continue
-        elif guess[i] in answer:
-            for j in keyboard:
-                if j.value == guess[i]:
-                    j.setColor("yellow")
-            i += 1
-            continue
+def validateInput(guess):
+    try:
+        int(guess)
+    except ValueError:
+        if type(guess) == str:
+            if len(guess) == 5:
+                return True
+            else:
+                return False
         else:
-            for j in keyboard:
-                if j.value == guess[i]:
-                    j.setColor("black")
-            i += 1
-            continue
-
-    return keyboard
+            return False
+    else:
+        return False
 
 #Initializers for Keyboard and Tiles
 def initializeKeyboard():
@@ -180,7 +166,8 @@ def initializeTiles(guess):
 
     return tiles
 
-#Feedback: Color & Print Tiles & Keyboard, Compare Guess to Answer
+#FEEDBACK
+# Color Tiles & Keyboard
 def colorTiles(guess, wordle, tiles):
     guess = guess.upper()
     wordle = wordle.upper()
@@ -239,6 +226,10 @@ def colorTiles(guess, wordle, tiles):
                     else:
                         tiles[count].setColor("yellow")
                         doubleCount += 1
+                elif((i not in doubles) and (guess.count(i) > 1)):
+                    tiles[count].setColor("black")
+                elif((i != triple) and (guess.count(i) > 2)):
+                    tiles[count].setColor("black")
                 else:
                     tiles[count].setColor("yellow")
         else:
@@ -246,6 +237,35 @@ def colorTiles(guess, wordle, tiles):
         count += 1
     return tiles
 
+def colorKeyboard(guess, answer, keyboard):
+    keyboard = keyboard
+    guess = guess.upper()
+    answer = answer.upper()
+
+    i = 0
+    while i < (len(guess)):
+        if guess[i] == answer[i]:
+            for j in keyboard:
+                if j.value == guess[i]:
+                    j.setColor("green")
+            i += 1
+            continue
+        elif guess[i] in answer:
+            for j in keyboard:
+                if j.value == guess[i]:
+                    j.setColor("yellow")
+            i += 1
+            continue
+        else:
+            for j in keyboard:
+                if j.value == guess[i]:
+                    j.setColor("black")
+            i += 1
+            continue
+
+    return keyboard
+
+#Check Guess
 def checkGuess(guess,wordle):
     guess = guess.upper()
     wordle = wordle.upper()
@@ -257,6 +277,7 @@ def checkGuess(guess,wordle):
     
     return complete
 
+#Print Tiles and Keyboard
 def printTiles(tiles):
     tiles = tiles
     for i in tiles:
@@ -274,6 +295,7 @@ def printKeyboard(keyboard):
             print("   ", end="")
     print("\n")
 
+#GAME
 def init():
     welcome()
 
@@ -284,6 +306,12 @@ def init():
     #First run of Wordle
     printKeyboard(keyboard) #provide blank keyboard
     guess = userGuess() #intake guess
+
+    while(not validateInput(guess)):
+        print("\n")
+        print("Guess must be a 5 letter word. Try again")
+        guess = userGuess() #intake guess
+        
 
     #Initialize and print tiles in response to guess
     tiles = initializeTiles(guess)
@@ -300,6 +328,10 @@ def init():
     counter = 1
     while((not complete) and counter < 6):
         guess = userGuess()
+        while(not validateInput(guess)):
+            print("\n")
+            print("Guess must be a 5 letter word. Try again")
+            guess = userGuess()
         tiles = initializeTiles(guess)
         tiles = colorTiles(guess,wordle,tiles)
         print("\n")
