@@ -223,7 +223,6 @@ def colorTiles(guess, wordle, tiles):
     #Colors incorrect tiles yellow or black
     count = 0
     for i in guess:
-        print(i + " COUNT:" + str(count))
         if i in wordle:
             if i == wordle[count]:
                 variable = True
@@ -245,7 +244,6 @@ def colorTiles(guess, wordle, tiles):
         else:
             tiles[count].setColor("black")
         count += 1
-    print("TILE LENGTH: " + str(len(tiles)))
     return tiles
 
 def checkGuess(guess,wordle):
