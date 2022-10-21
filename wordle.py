@@ -37,11 +37,12 @@ def checkTriple(wordle):
 def checkDouble(wordle):
     wordle = wordle.upper()
 
-    for i in wordle:
-        if wordle.count(i) == 2:
-            return True
-        else:
-            continue
+    if checkTriple(wordle) == False:
+        for i in wordle:
+            if wordle.count(i) == 2:
+                return True
+            else:
+                continue
     return False
     
 def findTriple(wordle):
@@ -199,7 +200,6 @@ def colorTiles(guess, wordle, tiles):
     if(checkTriple(wordle)):
         triple = findTriple(wordle)
         hasTriple = True
-        print("REACHED")
     else:
         triple = ""
     
@@ -230,13 +230,13 @@ def colorTiles(guess, wordle, tiles):
                 variable = True
             else:
                 if(hasTriple and i == triple):
-                    if tripleCount > 2:
+                    if tripleCount > 3:
                         tiles[count].setColor("black")
                     else:
                         tiles[count].setColor("yellow")
                         tripleCount += 1
-                if(hasDouble and i in doubles):
-                    if doubleCount > 1:
+                elif(hasDouble and i in doubles):
+                    if doubleCount > 2:
                         tiles[count].setColor("black")
                     else:
                         tiles[count].setColor("yellow")
@@ -246,7 +246,7 @@ def colorTiles(guess, wordle, tiles):
         else:
             tiles[count].setColor("black")
         count += 1
-
+    print("TILE LENGTH: " + str(len(tiles)))
     return tiles
 
 def checkGuess(guess,wordle):
