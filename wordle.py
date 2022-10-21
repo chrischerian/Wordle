@@ -21,8 +21,7 @@ def generateWord():
     "paper", "party", "peace", "poker", "pound", "queen", "ratio", "reply", "right", "river", "scene", "scope", "shape", "share", "sheep", "shift", "shock",
     "slight", "skill", "sleep", "taste", "total", "touch", "train", "trend", "uncle"," union", "value", "video", "voice", "waste", "watch", "white", "whole",
     "woman", "world","young"]
-    # wordle = random.choice(wordList)
-    wordle = "MAMMA"
+    wordle = random.choice(wordList)
     return wordle
 
 def checkTriple(wordle):
